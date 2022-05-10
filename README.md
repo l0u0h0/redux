@@ -142,3 +142,22 @@ export default store;
     - `const unsubscribe = store.subscribe(() => {});`
     - 리턴이 `unsubscrive` 라는 점!
     - `unsubscribe();` 하면 제거
+
+```js
+// 상태가 변경될 때마다 함수 실행
+const unsubscribe = store.subscribe(() => {
+  // 현재 스토어의 상태 값 가져오기
+  console.log(store.getState());
+});
+// 스토어에 상태 값 추가하기
+store.dispatch(addTodo("coding"));
+store.dispatch(addTodo("react book"));
+store.dispatch(addTodo("eay"));
+// subscribe 제거
+unsubscribe();
+// 제거한 이후에는 콘솔 코드가 실행되지 않음
+// 하지만 스토어의 State에는 계속 추가됨.
+store.dispatch(addTodo("coding"));
+store.dispatch(addTodo("react book"));
+store.dispatch(addTodo("eay"));
+```
