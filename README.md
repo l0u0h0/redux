@@ -68,3 +68,38 @@ function addTodo(todo) {
   };
 }
 ```
+
+## 리덕스의 리듀서란?
+
+- 액션을 주면, 그 액션이 적용되어 달라진(안달라질수도잇) 결과를 만들어줌.
+- Just Function!
+  - `Pure Function`
+    - 같은 인풋을 받으면 같은 결과를 도출하는 그런 함수
+    - 리듀서 안에 시간에 따라 달라지거나 매번 다른 값을 내거나 하면 안댐.
+  - `Immutable`
+    - 원래 오리지날 스테이트와 바뀐 스테이트가 별도의 객체로 만들어져야한다.
+    - 왜 와이
+      - 리듀서를 통해 스테이트가 달라졌음을 리덕스가 인지하는 방식
+-
+
+```
+function 리듀서(previousState, action) {
+  return newState;
+}
+```
+
+- 액션을 받아서 스테이트를 리턴하는 구조
+- 인자로 들어오는 `previousState`와 리턴하는 `newState`는  
+  다른 참조를 가지도록 해야한다!!!!!
+
+```js
+import { ADD_TODO } from "./actions";
+// 초기값 설정
+const initialState = [];
+function todoApp(previousState = initialState, action) {
+  if (action.type === ADD_TODO) {
+    return [...previousState, action.todo];
+  }
+  return previousState;
+}
+```
