@@ -103,3 +103,42 @@ function todoApp(previousState = initialState, action) {
   return previousState;
 }
 ```
+
+## createStore
+
+- 스토어를 만드는 함수
+- `const store = createStore(리듀서);`
+
+```js
+createStore<S>(
+  reducer: Reducer<S>,
+  preloadedState: S,
+  enhancer?: StoreEnhancer<S>
+):Store<S>;
+```
+
+- enhancer => 리덕스 어드밴쳐에서 알아보자구
+
+```js
+import { createStore } from "redux";
+import { todoApp } from "./reducers";
+const store = createStore(todoApp);
+
+export default store;
+```
+
+- store 객체에는
+  - `dispatch(액션)`
+    - 액션생성자를 인자로 받아 실행할 수도 잇음
+    - 현재 스토어의 상태를 변경시키는 함수
+  - `getState()`
+    - 스토어의 상태값을 가져올 수 잇음
+  - `replaceReducer()`
+    - 다른 리듀서를 인자로 받음
+    - 원래의 리듀서를 다른 리듀서로 바꾸는 기능
+    - 잘 쓰이지 않으니 있다고만 알아두기
+  - `subscribe()`
+    - 함수를 인자로 받고 스토어의 상태가 변경되면 함수가 호출됨.
+    - `const unsubscribe = store.subscribe(() => {});`
+    - 리턴이 `unsubscrive` 라는 점!
+    - `unsubscribe();` 하면 제거
