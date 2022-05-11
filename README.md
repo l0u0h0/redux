@@ -161,3 +161,7 @@ store.dispatch(addTodo("coding"));
 store.dispatch(addTodo("react book"));
 store.dispatch(addTodo("eay"));
 ```
+
+## combineReduces
+
+- `redux`로부터 `import`
