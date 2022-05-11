@@ -165,3 +165,198 @@ store.dispatch(addTodo("eay"));
 ## combineReduces
 
 - `redux`로부터 `import`
+
+- 상태의 정보가 많아질수록 리듀서가 많아지고 복잡해져서 같은 분류끼리  
+  묶어놓은 뒤 `combineReducer`함수로 합쳐서 단일 스토어로 사용 가능
+- ### index.js
+
+```js
+store.subscribe(() => {
+  console.log(store.getState());
+});
+store.dispatch(addTodo("할일"));
+store.dispatch(completeTodo(0));
+store.dispatch(showComplete());
+```
+
+- ### actions.js
+
+```js
+export const ADD_TODO = "ADD_TODO";
+export const COMPLETE_TODO = "COMPLETE_TODO";
+
+// {type: ADD_TODO, text: '할일'}
+export function addTodo(text) {
+  return {
+    type: ADD_TODO,
+    text,
+  };
+}
+
+// {type: COMPLETE_TODO, index: 3}
+export function completeTodo(index) {
+  return {
+    type: COMPLETE_TODO,
+    index,
+  };
+}
+
+export const SHOW_ALL = "SHOW_ALL";
+export const SHOW_COMPLETE = "SHOW_COMPLETE";
+
+export function showAll() {
+  return { type: SHOW_ALL };
+}
+
+export function showComplete() {
+  return { type: SHOW_COMPLETE };
+}
+```
+
+- ### reducers.js
+
+```js
+// state
+// ['coding', 'lunch'];
+// --> combinereducer
+// state
+// [{text: 'coding', done: false}, {text: 'lunch', done: false}]
+// {todos: [{text: 'coding', done: false}, {text: 'lunch', done: false}], filter: 'ALL'}
+import { ADD_TODO, COMPLETE_TODO, SHOW_ALL, SHOW_COMPLETE } from "./actions";
+import { combineReducers } from "redux";
+// 초기값 설정
+const initialState = { todos: [], filter: "ALL" };
+const todosInitialState = initialState.todos;
+const filterInitialState = initialState.filter;
+
+const reducer = combineReducers({
+  todos: todosReducer,
+  filter: filterReducer,
+});
+export default reducer;
+export function todoApp(previousState = initialState, action) {
+  if (action.type === ADD_TODO) {
+    return {
+      ...previousState,
+      todos: [...previousState.todos, { text: action.text, done: false }],
+    };
+  }
+  if (action.type === COMPLETE_TODO) {
+    return {
+      ...previousState,
+      todos: previousState.todos.map((todo, index) => {
+        if (index === action.index) {
+          return { ...todo, done: true };
+        }
+        return todo;
+      }),
+    };
+  }
+  if (action.type === SHOW_COMPLETE) {
+    return {
+      ...previousState,
+      filter: "COMPLETE",
+    };
+  }
+  if (action.type === SHOW_ALL) {
+    return {
+      ...previousState,
+      filter: "ALL",
+    };
+  }
+  return previousState;
+}
+
+// [{text: 'coding', done: false}, {text: 'lunch', done: false}]
+function todosReducer(previousState = todosInitialState, action) {
+  if (action.type === ADD_TODO) {
+    return [...previousState, { text: action.text, done: false }];
+  }
+  if (action.type === COMPLETE_TODO) {
+    return previousState.map((todo, index) => {
+      if (index === action.index) {
+        return { ...todo, done: true };
+      }
+      return todo;
+    });
+  }
+  return previousState;
+}
+
+function filterReducer(previousState = filterInitialState, action) {
+  if (action.type === SHOW_COMPLETE) {
+    return "COMPLETE";
+  }
+  if (action.type === SHOW_ALL) {
+    return "ALL";
+  }
+  return previousState;
+}
+```
+
+- `reducers` 디렉토리를 만들어 보다 편하게 관리할 수 있음
+- ### reducers/todos.js
+
+```js
+import { ADD_TODO, COMPLETE_TODO } from "../actions";
+
+const initialState = [];
+export default function todos(previousState = initialState, action) {
+  if (action.type === ADD_TODO) {
+    return [...previousState, { text: action.text, done: false }];
+  }
+  if (action.type === COMPLETE_TODO) {
+    return previousState.map((todo, index) => {
+      if (index === action.index) {
+        return { ...todo, done: true };
+      }
+      return todo;
+    });
+  }
+  return previousState;
+}
+```
+
+- ### reducers/filter.js
+
+```js
+import { SHOW_ALL, SHOW_COMPLETE } from "../actions";
+
+const initialState = "ALL";
+export default function filter(previousState = initialState, action) {
+  if (action.type === SHOW_COMPLETE) {
+    return "COMPLETE";
+  }
+  if (action.type === SHOW_ALL) {
+    return "ALL";
+  }
+  return previousState;
+}
+```
+
+- ### reducers/reducer.js
+
+```js
+import { combineReducers } from "redux";
+import todos from "./todos";
+import filter from "./filter";
+
+const reducer = combineReducers({
+  todos,
+  filter,
+});
+
+export default reducer;
+```
+
+- ### store.js
+
+```js
+import { createStore } from "redux";
+import todoApp from "./reducers/reducer";
+const store = createStore(todoApp);
+
+export default store;
+```
+
+디렉토리를 만들어 사용했다면 `todoApp`을 불러오는 경로 바꿔주기
