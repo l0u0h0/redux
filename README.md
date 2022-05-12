@@ -369,3 +369,152 @@ export default store;
 - props로 계속 아래로 전달
 - `componentDidMount` - `subscribe`
 - `componentWillUnmount` - `unsubscribe`
+
+- func component에서는 useEffect()로 사용
+
+- `props`를 사용해 전달
+- ### index.js
+
+```js
+<App store={store} />
+```
+
+- ### App.js
+
+```js
+function App({ store }) {
+  const [state, setState] = useState(store.getState());
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setState(store.getState());
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [store]);
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        {JSON.stringify(state)}
+        <button onClick={click}>추가</button>
+      </header>
+    </div>
+  );
+  function click() {
+    store.dispatch(addTodo("todo"));
+  }
+}
+```
+
+- `context`를 사용해 store 이용하기
+- ### contexts/ReduxContext.js
+
+```js
+import { createContext } from "react";
+
+const ReduxContext = createContext();
+
+export default ReduxContext;
+```
+
+- ### index.js
+
+```js
+<ReduxContext.Provider value={store}>
+  <App />
+</ReduxContext.Provider>
+```
+
+- ### App.js
+
+```js
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <TodoList />
+        <TodoForm />
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+- ### components/TodoList.jsx
+
+```jsx
+import useReduxState from "../hooks/useReduxState";
+
+export default function TodoList() {
+  const state = useReduxState();
+  return (
+    <ul>
+      {state.todos.map((todo) => {
+        return <li>{todo.text}</li>;
+      })}
+    </ul>
+  );
+}
+```
+
+- ### components/TodoForm.jsx
+
+```jsx
+import { useRef } from "react";
+import useReduxDispatch from "../hooks/useReduxDispatch";
+import { addTodo } from "../redux/actions";
+
+export default function TodoForm() {
+  const inputRef = useRef();
+  const dispatch = useReduxDispatch();
+
+  return (
+    <div>
+      <input ref={inputRef} />
+      <button onClick={click}>추가</button>
+    </div>
+  );
+  function click() {
+    dispatch(addTodo(inputRef.current.value));
+  }
+}
+```
+
+- ### hooks/useReduxState.js
+
+```js
+import { useContext, useEffect, useState } from "react";
+import ReduxContext from "../contexts/ReduxContext";
+
+export default function useReduxState() {
+  const store = useContext(ReduxContext);
+  const [state, setState] = useState(store.getState());
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setState(store.getState());
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [store]);
+  return state;
+}
+```
+
+- ### hooks/useReduxDispatch.js
+
+```js
+import { useContext } from "react";
+import ReduxContext from "../contexts/ReduxContext";
+
+export default function useReduxDispatch() {
+  const store = useContext(ReduxContext);
+  return store.dispatch;
+}
+```
+
+- `store, action.js`는 이전과 동일
