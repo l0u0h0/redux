@@ -360,3 +360,12 @@ export default store;
 ```
 
 디렉토리를 만들어 사용했다면 `todoApp`을 불러오는 경로 바꿔주기
+
+## Redux를 React에 연결
+
+- `react-redux`안쓰고 연결해보기
+- 단일 스토어를 만들고
+- subscribe와 getState를 이용해 변경되는 state 데이터를 얻어,
+- props로 계속 아래로 전달
+- `componentDidMount` - `subscribe`
+- `componentWillUnmount` - `unsubscribe`
