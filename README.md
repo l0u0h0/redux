@@ -522,9 +522,114 @@ export default function useReduxDispatch() {
 - ### react-redux 사용해 연결하기
 - `Provider` 컴포넌트를 제공해줌.
 - `connect` HOC 함수를 통해 컨테이너를 만들어준다.
+
   - 컨테이너는 스토어의 state와 dispatch(액션)를 연결한  
     컴포넌트에 props로 넣어주는 역할을 한다.
   - 필요한 것??
     - 어떤 state를 어떤 props에 연결할 것인지에 대한 정의
     - 어떤 dispatch(액션)을 어떤 props에 연결할 것인지에 대한 정의
     - 그 props를 보낼 컴포넌트를 정의
+
+- `index.js`에서 기존의 `ReduxContents.Provider` 말고  
+  `react-redux`에서 제공하는 `Provider` 컴포넌트로 전체 컴포넌트  
+  감싸주기
+- 그 후 사용할 컴포넌트 파일에서 connect 함수를 이용해  
+  컨테이너를 만들어 준다.
+- 커넥트 함수는 실행한 결과가 함수이기에 `connect()();`와 같이  
+  함수를 실행한 결과를 실행한 결과를 얻어낼 수 있다.
+- 그 결과가 컨테이너이다.
+- 커넥터 함수의 인자로는 state와 dispatch가 있고 두 인자 모두  
+  함수이다.
+- 예시
+
+```jsx
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+// connect 함수를 실행한 결과가 함수이기에 뒤에 ()
+// connect 함수를 실행한 결과가 함수고 그 함수를 실행한 결과가 컨테이너
+const TodoListContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
+export default TodoListContainer;
+```
+
+- `TodoList`는 기존 컴포넌트를 임폴트 해 가져와야함
+- `mapStateProps` 함수에서는 연결할 state를 리턴
+- `mapDispatchProps` 함수에서는 연결할 액션을 리턴
+- 기존 컴포넌트 코드 예시
+
+```jsx
+export default function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map((todo) => {
+        return <li>{todo.text}</li>;
+      })}
+    </ul>
+  );
+}
+```
+
+- 액션을 넘겨주는 예시
+
+```jsx
+const TodoFormContainer = connect(
+  (state) => ({}),
+  (dispatch) => ({
+    add: (text) => {
+      dispatch(addTodo(text));
+    },
+  })
+)(TodoForm);
+
+export default TodoFormContainer;
+```
+
+- 이와 같이 코드를 좀 더 줄여 작성할 수도 있다.
+
+- `conncet` HOC 함수를 사용하지 않고 커스텀 훅을 만들어 사용할 수도 있다.
+- ### TodoListContainer.jsx
+
+```jsx
+function TodoListContainer() {
+  const todos = useSelector((state) => state.todos);
+
+  return <TodoList todos={todos} />;
+}
+
+export default TodoListContainer;
+```
+
+- `useSelector`는 react-redux에서 제공하는 함수
+- 스토어에서 원하는 상태 값을 고를 수 있도록 함.
+
+- ### TodoFormContainer.jsx
+
+```jsx
+export default function TodoFormContainer() {
+  const dispatch = useDispatch();
+  // [dispatch]에서 변화가 있을 때 함수가 새로 만들어짐
+  const add = useCallback(
+    (text) => {
+      dispatch(addTodo(text));
+    },
+    [dispatch]
+  );
+  return <TodoForm add={add} />;
+}
+```
+
+- `useDispatch`는 react-redux에서 제공하는 함수
+- dispatch를 가져오는 역할을 수행
+- `useCallback`은 react에서 제공하는 함수
+- 뒤 파라메터로 들어오는 인자에 변경이 생기면 앞 인자로 들어온  
+  함수가 실행되는 역할
+- 그냥 함수로 만들었다간 액션이 일어나지 않아도 계속 props가  
+  변경될 수 있기에 콜백을 사용
