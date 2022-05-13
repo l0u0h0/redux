@@ -4,8 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/store";
-import ReduxContext from "./contexts/ReduxContext";
+// import ReduxContext from "./contexts/ReduxContext";
 // import { addTodo, completeTodo, showComplete } from "./redux/actions";
+import { Provider } from "react-redux";
 
 // const unsubscribe = store.subscribe(() => {
 //   console.log(store.getState());
@@ -27,9 +28,9 @@ import ReduxContext from "./contexts/ReduxContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ReduxContext.Provider value={store}>
+    <Provider store={store}>
       <App />
-    </ReduxContext.Provider>
+    </Provider>
   </React.StrictMode>
 );
 
