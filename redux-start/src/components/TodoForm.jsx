@@ -17,7 +17,7 @@ import { addTodo } from "../redux/actions";
 //     dispatch(addTodo(inputRef.current.value));
 //   }
 // }
-function TodoForm({ add }) {
+export default function TodoForm({ add }) {
   const inputRef = useRef();
 
   return (
@@ -30,12 +30,3 @@ function TodoForm({ add }) {
     add(inputRef.current.value);
   }
 }
-
-export default connect(
-  (state) => ({}),
-  (dispatch) => ({
-    add: (text) => {
-      dispatch(addTodo(text));
-    },
-  })
-)(TodoForm);
