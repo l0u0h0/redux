@@ -27,3 +27,12 @@ export function showAll() {
 export function showComplete() {
   return { type: SHOW_COMPLETE };
 }
+
+// users action type
+
+// 깃헙 api 호출을 시작하는 것을 의미하는 액션
+export const GET_USERS_START = "GET_USERS_START";
+// 깃헙 api 호출에 대한 응답이 성공적으로 돌아온 경우
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+// 깃헙 api 호출에 대한 응답이 실패한 경우
+export const GET_USERS_FAIL = "GET_USERS_FAIL";
