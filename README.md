@@ -663,3 +663,5 @@ export default function TodoFormContainer() {
 - 테스트도 어려울 수 있다.
 - 그렇기에 컴포넌트 말고 컨테이너에 넣ㅇㅓ서 한번에 만들면  
   훨씬 깔끔한 로직을 구성할 ㅅ ㅜ있다.
+
+- `commit -m 'async action'`
