@@ -633,3 +633,33 @@ export default function TodoFormContainer() {
   함수가 실행되는 역할
 - 그냥 함수로 만들었다간 액션이 일어나지 않아도 계속 props가  
   변경될 수 있기에 콜백을 사용
+
+## Redux Advanced.1
+
+- ### Async Action with Redux
+- ### 리덕스 미들웨어
+- ### redux-thunk
+- ### redux-promise-middleware
+
+## Async Action with Redux
+
+- 배열 가져오기 위해 `axios` 설치하기
+
+  - `npm i axios`
+
+- api 호출은 보통 컴포넌트디드마운트 시점에 호출
+- ### 비동기 작업을 어디서 하느냐? 가 제일 중요
+
+  - 액션을 분리한다.
+    - Start
+    - Success
+    - Fail
+  - `dispatch`를 할 때 해준다.
+    - 당연히 리듀서는 동기적인 것 => Pure
+    - dispatch도 동기적인 것
+
+- 비동기 작업을 컴포넌트 안에 넣는다면 뷰와 관련되지 않은  
+  로직이 추가되기 때문에 디버깅이 복잡할 수 있다.
+- 테스트도 어려울 수 있다.
+- 그렇기에 컴포넌트 말고 컨테이너에 넣ㅇㅓ서 한번에 만들면  
+  훨씬 깔끔한 로직을 구성할 ㅅ ㅜ있다.

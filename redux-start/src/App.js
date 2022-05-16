@@ -4,6 +4,7 @@ import "./App.css";
 // import TodoForm from "./components/TodoForm";
 import TodoListContainer from "./containers/TodoListContainer";
 import TodoFormContainer from "./containers/TodoFormContainer";
+import UserListContainer from "./containers/UserListContainer";
 
 // props 사용
 // function App({ store }) {
@@ -37,6 +38,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <UserListContainer />
         <TodoListContainer />
         <TodoFormContainer />
       </header>

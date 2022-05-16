@@ -36,3 +36,23 @@ export const GET_USERS_START = "GET_USERS_START";
 export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 // 깃헙 api 호출에 대한 응답이 실패한 경우
 export const GET_USERS_FAIL = "GET_USERS_FAIL";
+
+export function getUsersStart() {
+  return {
+    type: GET_USERS_START,
+  };
+}
+
+export function getUsersSuccess(data) {
+  return {
+    type: GET_USERS_SUCCESS,
+    data,
+  };
+}
+
+export function getUsersFail(error) {
+  return {
+    type: GET_USERS_FAIL,
+    error,
+  };
+}
