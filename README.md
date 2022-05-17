@@ -665,3 +665,13 @@ export default function TodoFormContainer() {
   훨씬 깔끔한 로직을 구성할 ㅅ ㅜ있다.
 
 - `commit -m 'async action'`
+
+## 리덕스 미들웨어
+
+- 미들웨어가 `dispatch` 앞 뒤에 코드를 추가할 수 있게 해주
+- 미들웨어가 여러 개면 순차적으로 실행, 설정된 순서대로
+- 두 단계
+  - 스토어를 만들 때 미들웨어를 설정하는 부분
+    - `{createStore, applyMiddleware} from redux`
+  - 디스패치가 호출될 때 실제로 미들웨어를 통과하는 부분
+- `dispatch` 메서드를 통해 스토어로 가고 있는 액션을 가로채는 코드
