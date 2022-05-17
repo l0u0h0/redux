@@ -675,3 +675,56 @@ export default function TodoFormContainer() {
     - `{createStore, applyMiddleware} from redux`
   - 디스패치가 호출될 때 실제로 미들웨어를 통과하는 부분
 - `dispatch` 메서드를 통해 스토어로 가고 있는 액션을 가로채는 코드
+
+- ### store.js
+
+```js
+function middleware1(store) {
+  console.log("middleware1", 0);
+  // 다음 미들웨어를 지칭
+  return (next) => {
+    console.log("middleware1", 1, next);
+    return (action) => {
+      console.log("middleware1", 2);
+      const returnValue = next(action);
+      console.log("middleware1", 3);
+      return returnValue;
+    };
+  };
+}
+
+function middleware2(store) {
+  console.log("middleware2", 0);
+  // 다음 미들웨어를 지칭
+  return (next) => {
+    console.log("middleware2", 1, next);
+    return (action) => {
+      console.log("middleware2", 2);
+      const returnValue = next(action);
+      console.log("middleware2", 3);
+      return returnValue;
+    };
+  };
+}
+
+const store = createStore(todoApp, applyMiddleware(middleware1, middleware2));
+```
+
+- log 순서
+
+  - middleware1 0
+  - middleware2 0
+  - middleware2 1
+  - middleware1 1
+  - middleware1 2
+  - middleware2 2
+  - middleware2 3
+  - middleware1 3
+
+- middleware의 리턴 함수(next를 인자로 받는)  
+  함수 안에서는
+- 스토어에 getstate, dispatch를 할 수 있다.
+- 그래서 의도에 맞춰 스테이트를 얻어다 다른 처리를 한다던가  
+  디스패치를 추가로 보낸다던가 할 수 있다.
+- 보통은 리덕스에 부가기능을 추가하기 위한  
+  미들웨어 라이브러리를 사용한다.
