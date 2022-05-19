@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 // import useReduxDispatch from "../hooks/useReduxDispatch";
-import { addTodo } from "../redux/actions";
+// import { addTodo } from "../redux/actions";
 
 // export default function TodoForm() {
 //   const inputRef = useRef();

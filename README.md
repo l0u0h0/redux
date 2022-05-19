@@ -728,3 +728,16 @@ const store = createStore(todoApp, applyMiddleware(middleware1, middleware2));
   디스패치를 추가로 보낸다던가 할 수 있다.
 - 보통은 리덕스에 부가기능을 추가하기 위한  
   미들웨어 라이브러리를 사용한다.
+
+## redux-devtools
+
+- [`redux-devtools`](https://github.com/zalmoxisus/redux-devtools-extension)
+- 미들웨어를 설치해 브라우저에 있는 dev-tools에 연결하는 작업이 필요
+- `npm i redux-devtools-extension -D`
+- `createstore` 할 때
+
+```js
+const store = createStore(todoApp, composeWithDevTools(applyMiddleware()));
+```
+
+- 추가해주기
