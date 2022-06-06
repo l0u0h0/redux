@@ -7,7 +7,7 @@ import {
   // getUsersStart,
   // getUsersSuccess,
   getUsersThunk,
-} from "../redux/actions";
+} from "../redux/modules/users";
 // import axios from "axios";
 
 export default function UserListContainer() {

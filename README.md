@@ -801,7 +801,13 @@ export function getUsersPromise() {
 - src/redux
   - create.js
 - src/redux/modules
+
   - module1.js
   - module2.js
   - ...
   - reducer.js(or index.js)
+
+- 장점
+  - 기존에는 액션js에 액션이 다 몰려있었고 리듀서만 각각 분리된 상태에서 그 리듀서에서  
+    액션의 타입을 받아온다던가 했는데
+  - 이렇게 하는 것보다 모듈로 하나의 카테고리로 묶어 사용하는 것이 수월하다.
