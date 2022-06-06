@@ -790,3 +790,18 @@ export function getUsersPromise() {
 - PENDING은 그냥 타입만 들어온다.
 - 리덕스 프로미스 미들웨어는 임의로 미들웨어를 통과할 때 타입 뒤에 무언가를 붙여 프로미스를  
   처리하고 보내주는 로직을 담고있다.
+
+---
+
+## Ducks Pattern
+
+- 라이브러리가 아니고 많은 사람들이 사용하는 리덕스의 패턴
+- [`Ducks Pattern`](https://github.com/erikras/ducks-modular-redux)
+- 아래쪽에 한국어 번역 버전도 있다.
+- src/redux
+  - create.js
+- src/redux/modules
+  - module1.js
+  - module2.js
+  - ...
+  - reducer.js(or index.js)
