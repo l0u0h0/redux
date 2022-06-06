@@ -757,3 +757,36 @@ const store = createStore(todoApp, composeWithDevTools(applyMiddleware()));
 - [`redux-promise-middleware`](https://pburtchaell.gitbook.io/redux-promise-middleware)
 - 비동기 처리를 위한 리덕스 미들웨어
 - `npm i redux-promise-middleware`
+
+```js
+// src/actions.js
+
+// redux-promise-middleware
+
+const GET_USERS = "GET_USERS";
+
+// 미들웨어가 자동으로 생성해주는 타입들,
+// 스토어의 상태에 따라 상태를 지정해줌.
+export const GET_USERS_PENDING = "GET_USERS_PENDING";
+export const GET_USERS_FULFILLED = "GET_USERS_FULFILLED";
+export const GET_USERS_REJECTED = "GET_USERS_REJECTED";
+
+export function getUsersPromise() {
+  return {
+    type: GET_USERS,
+    // 이 부분에 프로미스 함수 작성
+    payload: async () => {
+      const res = await axios.get("https://api.github.com/users");
+      return res.data;
+    },
+  };
+}
+```
+
+- Promise 미들웨어는 어떤 타입으로 디스패치할 때 `payload`에 프로미스 객체가 있으면  
+  타입의 뒤에 PENDING, FULFILLED, REJECTED를 붙이고
+- 성공한 경우에는 리턴되는 `res.data`를 `action.payload`에 넣어주고 에러가 발생할 경우  
+  `action.payload`에 에러 객체를 넣어준다.
+- PENDING은 그냥 타입만 들어온다.
+- 리덕스 프로미스 미들웨어는 임의로 미들웨어를 통과할 때 타입 뒤에 무언가를 붙여 프로미스를  
+  처리하고 보내주는 로직을 담고있다.
