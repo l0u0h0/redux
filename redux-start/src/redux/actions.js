@@ -70,3 +70,18 @@ export function getUsersThunk() {
     }
   };
 }
+
+// redux-promise-middleware
+
+const GET_USERS = "GET_USERS";
+
+export function getUsersPromise() {
+  return {
+    type: GET_USERS,
+    // 이 부분에 프로미스 함수 작성
+    payload: async () => {
+      const res = await axios.get("https://api.github.com/users");
+      return res.data;
+    },
+  };
+}
