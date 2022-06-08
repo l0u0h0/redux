@@ -1,10 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
 // import TodoList from "./components/TodoList";
 // import TodoForm from "./components/TodoForm";
-import TodoListContainer from "./containers/TodoListContainer";
-import TodoFormContainer from "./containers/TodoFormContainer";
-import UserListContainer from "./containers/UserListContainer";
+// import TodoListContainer from "./containers/TodoListContainer";
+// import TodoFormContainer from "./containers/TodoFormContainer";
+// import UserListContainer from "./containers/UserListContainer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Todos from "./pages/Todos";
+import Users from "./pages/Users";
 
 // props 사용
 // function App({ store }) {
@@ -35,14 +38,21 @@ import UserListContainer from "./containers/UserListContainer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <UserListContainer />
-        <TodoListContainer />
-        <TodoFormContainer />
-      </header>
-    </div>
+    // <div className="App">
+    //   <header className="App-header">
+    //     <img src={logo} className="App-logo" alt="logo" />
+    //     <UserListContainer />
+    //     <TodoListContainer />
+    //     <TodoFormContainer />
+    //   </header>
+    // </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/*" element={<Home />} />
+        <Route path="/todos" element={<Todos />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
