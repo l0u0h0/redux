@@ -4,10 +4,11 @@ import "./App.css";
 // import TodoListContainer from "./containers/TodoListContainer";
 // import TodoFormContainer from "./containers/TodoFormContainer";
 // import UserListContainer from "./containers/UserListContainer";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Todos from "./pages/Todos";
 import Users from "./pages/Users";
+import history from "./history";
 
 // props 사용
 // function App({ store }) {
@@ -46,13 +47,11 @@ function App() {
     //     <TodoFormContainer />
     //   </header>
     // </div>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/*" element={<Home />} />
-        <Route path="/todos" element={<Todos />} />
-        <Route path="/users" element={<Users />} />
-      </Routes>
-    </BrowserRouter>
+    <Router history={history}>
+      <Route path="/" exact component={Home} />
+      <Route path="/todos" exact component={Todos} />
+      <Route path="/users" exact component={Users} />
+    </Router>
   );
 }
 

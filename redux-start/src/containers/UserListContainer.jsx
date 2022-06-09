@@ -32,7 +32,7 @@ export default function UserListContainer() {
   //   dispatch(getUsersThunk);
   // }, [dispatch]);
   const getUsers = useCallback(() => {
-    dispatch(getUsersPromise());
+    dispatch(getUsersThunk());
   }, [dispatch]);
   return <UserList users={users} getUsers={getUsers} />;
 }
